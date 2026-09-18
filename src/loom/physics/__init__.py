@@ -1,0 +1,1 @@
+"""loom.physics — sector package."""

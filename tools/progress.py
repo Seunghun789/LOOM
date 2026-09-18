@@ -8,13 +8,14 @@
   python3 tools/progress.py --milestone M3      # 해당 마일스톤만 표시
   python3 tools/progress.py --check             # 누락 의존성·순환 검사 (exit 1 on error)
 """
+
 from __future__ import annotations
 
 import argparse
 import re
 import sys
 from collections import OrderedDict
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -83,7 +84,9 @@ def set_status(mid: str, status: str) -> None:
 
 def check(modules: list[dict]) -> list[str]:
     ids = {m["id"] for m in modules}
-    errs = [f"{m['id']}: missing dep {d}" for m in modules for d in m.get("depends", []) if d not in ids]
+    errs = [
+        f"{m['id']}: missing dep {d}" for m in modules for d in m.get("depends", []) if d not in ids
+    ]
     graph = {m["id"]: m.get("depends", []) for m in modules}
     color: dict[str, int] = {}
 
@@ -105,16 +108,24 @@ def check(modules: list[dict]) -> list[str]:
 
 def ready(modules: list[dict], ms_order: list[str]) -> list[dict]:
     status = {m["id"]: m["status"] for m in modules}
-    out = [m for m in modules if m["status"] == "todo"
-           and all(status.get(d) == "done" for d in m.get("depends", []))]
+    out = [
+        m
+        for m in modules
+        if m["status"] == "todo" and all(status.get(d) == "done" for d in m.get("depends", []))
+    ]
     return sorted(out, key=lambda m: (m["priority"], ms_order.index(m["milestone"]), m["id"]))
 
 
 def write_board(milestones: OrderedDict, modules: list[dict], only: str | None) -> str:
-    now = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
-    rows = ["# PROGRESS — 자동 생성 (편집 금지, 원본: modules/registry.yaml)", "", f"갱신: {now}", "",
-            "| 마일스톤 | 완료 | 진행 | 리뷰 | 막힘 | 전체 | P0 완료율 | 남은 세션(추정) |",
-            "|---|---|---|---|---|---|---|---|"]
+    now = datetime.now(UTC).strftime("%Y-%m-%d %H:%M UTC")
+    rows = [
+        "# PROGRESS — 자동 생성 (편집 금지, 원본: modules/registry.yaml)",
+        "",
+        f"갱신: {now}",
+        "",
+        "| 마일스톤 | 완료 | 진행 | 리뷰 | 막힘 | 전체 | P0 완료율 | 남은 세션(추정) |",
+        "|---|---|---|---|---|---|---|---|",
+    ]
     for ms, name in milestones.items():
         mods = [m for m in modules if m["milestone"] == ms]
         if not mods:
@@ -123,16 +134,21 @@ def write_board(milestones: OrderedDict, modules: list[dict], only: str | None) 
         p0 = [m for m in mods if m["priority"] == "P0"]
         p0done = sum(1 for m in p0 if m["status"] == "done")
         left = sum(SIZE_SESS.get(m["size"], 1) for m in mods if m["status"] != "done")
-        rows.append(f"| {ms} {name} | {c['done']} | {c['doing']} | {c['review']} | {c['blocked']} | "
-                    f"{len(mods)} | {p0done}/{len(p0)} | {left:g} |")
+        rows.append(
+            f"| {ms} {name} | {c['done']} | {c['doing']} | {c['review']} | {c['blocked']} | "
+            f"{len(mods)} | {p0done}/{len(p0)} | {left:g} |"
+        )
     rows += ["", "## 카드", ""]
     for ms, name in milestones.items():
         if only and ms != only:
             continue
         mods = [m for m in modules if m["milestone"] == ms]
         rows += [f"### {ms} · {name}", ""]
-        rows += [f"- {ICON[m['status']]} `{m['id']}` {m['title']} · {m['priority']} · {m['size']}"
-                 f"{' · ←' + ','.join(m['depends']) if m.get('depends') else ''}" for m in mods]
+        rows += [
+            f"- {ICON[m['status']]} `{m['id']}` {m['title']} · {m['priority']} · {m['size']}"
+            f"{' · ←' + ','.join(m['depends']) if m.get('depends') else ''}"
+            for m in mods
+        ]
         rows.append("")
     text = "\n".join(rows)
     if not only:
@@ -158,14 +174,20 @@ def main() -> None:
         sys.exit(1 if errs else 0)
     if a.next:
         for m in ready(modules, list(milestones))[: a.limit]:
-            print(f"{m['id']}  [{m['priority']}/{m['size']}/{m['milestone']}]  {m['title']}  → {m['card']}")
+            print(
+                f"{m['id']}  [{m['priority']}/{m['size']}/{m['milestone']}]  "
+                f"{m['title']}  → {m['card']}"
+            )
         return
     text = write_board(milestones, modules, a.milestone)
     if a.milestone:
         print(text)
     else:
         done = sum(1 for m in modules if m["status"] == "done")
-        print(f"PROGRESS.md 갱신 — {done}/{len(modules)} done" + (f" · 경고 {len(errs)}건" if errs else ""))
+        print(
+            f"PROGRESS.md 갱신 — {done}/{len(modules)} done"
+            + (f" · 경고 {len(errs)}건" if errs else "")
+        )
 
 
 if __name__ == "__main__":

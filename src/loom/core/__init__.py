@@ -1,0 +1,1 @@
+"""loom.core — sector package."""

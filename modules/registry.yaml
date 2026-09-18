@@ -39,7 +39,7 @@ modules:
     depends: []
     agent: module-builder
     patterns: [H1, H2]
-    status: todo
+    status: review
     card: modules/cards/H-001.md
   - id: H-002
     title: "import-linter 경계 규칙"

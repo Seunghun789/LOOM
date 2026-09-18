@@ -1,0 +1,31 @@
+[project]
+name = "loom"
+version = "0.1.0"
+requires-python = ">=3.12"
+dependencies = [
+    "pydantic>=2",
+    "pydantic-settings",
+    "python-ulid",
+    "typer",
+    "rich",
+]
+
+[dependency-groups]
+dev = ["pytest", "ruff", "import-linter"]
+
+[tool.pytest.ini_options]
+markers = ["integration", "llm", "slow", "gpu"]
+addopts = "-q -m 'not integration and not llm and not slow and not gpu'"
+
+[tool.ruff]
+line-length = 100
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP"]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/loom"]

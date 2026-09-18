@@ -1,0 +1,197 @@
+[importlinter]
+root_packages =
+    loom
+
+[importlinter:contract:core-independence]
+name = core does not import any loom package (B-1)
+type = forbidden
+source_modules =
+    loom.core
+forbidden_modules =
+    loom.plant
+    loom.connect
+    loom.semantic
+    loom.evidence
+    loom.operate
+    loom.studio
+    loom.agent
+    loom.twin
+    loom.physics
+    loom.capture
+
+[importlinter:contract:sector-public-only]
+name = sectors only import other sectors' public module, not internals (B-2)
+type = forbidden
+source_modules =
+    loom.plant
+    loom.connect
+    loom.semantic
+    loom.evidence
+    loom.operate
+    loom.studio
+    loom.agent
+    loom.twin
+    loom.physics
+    loom.capture
+forbidden_modules =
+    loom.plant.internal
+    loom.connect.internal
+    loom.semantic.internal
+    loom.evidence.internal
+    loom.operate.internal
+    loom.studio.internal
+    loom.agent.internal
+    loom.twin.internal
+    loom.physics.internal
+    loom.capture.internal
+
+# B-5 allowed direction is not a strict layering (e.g. capture -> semantic.public
+# while most sectors only depend on core), so it is expressed as one forbidden
+# contract per sector rather than a single `layers` contract.
+
+[importlinter:contract:plant-deps]
+name = plant may not import other sectors (B-5: plant -> none)
+type = forbidden
+source_modules =
+    loom.plant
+forbidden_modules =
+    loom.connect
+    loom.semantic
+    loom.evidence
+    loom.operate
+    loom.studio
+    loom.agent
+    loom.twin
+    loom.physics
+    loom.capture
+
+[importlinter:contract:connect-deps]
+name = connect may not import other sectors (B-5: connect -> core)
+type = forbidden
+source_modules =
+    loom.connect
+forbidden_modules =
+    loom.plant
+    loom.semantic
+    loom.evidence
+    loom.operate
+    loom.studio
+    loom.agent
+    loom.twin
+    loom.physics
+    loom.capture
+
+[importlinter:contract:semantic-deps]
+name = semantic may only depend on connect (B-5: semantic -> connect.public)
+type = forbidden
+source_modules =
+    loom.semantic
+forbidden_modules =
+    loom.plant
+    loom.evidence
+    loom.operate
+    loom.studio
+    loom.agent
+    loom.twin
+    loom.physics
+    loom.capture
+
+[importlinter:contract:evidence-deps]
+name = evidence may only depend on semantic, connect (B-5)
+type = forbidden
+source_modules =
+    loom.evidence
+forbidden_modules =
+    loom.plant
+    loom.operate
+    loom.studio
+    loom.agent
+    loom.twin
+    loom.physics
+    loom.capture
+
+[importlinter:contract:operate-deps]
+name = operate may only depend on evidence, semantic (B-5)
+type = forbidden
+source_modules =
+    loom.operate
+forbidden_modules =
+    loom.plant
+    loom.connect
+    loom.studio
+    loom.agent
+    loom.twin
+    loom.physics
+    loom.capture
+
+[importlinter:contract:studio-deps]
+name = studio may only depend on operate, evidence (B-5)
+type = forbidden
+source_modules =
+    loom.studio
+forbidden_modules =
+    loom.plant
+    loom.connect
+    loom.semantic
+    loom.agent
+    loom.twin
+    loom.physics
+    loom.capture
+
+[importlinter:contract:agent-deps]
+name = agent may only depend on operate, evidence, plant (B-5)
+type = forbidden
+source_modules =
+    loom.agent
+forbidden_modules =
+    loom.connect
+    loom.semantic
+    loom.studio
+    loom.twin
+    loom.physics
+    loom.capture
+
+[importlinter:contract:twin-deps]
+name = twin may only depend on semantic, operate (B-5)
+type = forbidden
+source_modules =
+    loom.twin
+forbidden_modules =
+    loom.plant
+    loom.connect
+    loom.evidence
+    loom.studio
+    loom.agent
+    loom.physics
+    loom.capture
+
+[importlinter:contract:physics-deps]
+name = physics may not import other sectors (B-5: physics -> core)
+type = forbidden
+source_modules =
+    loom.physics
+forbidden_modules =
+    loom.plant
+    loom.connect
+    loom.semantic
+    loom.evidence
+    loom.operate
+    loom.studio
+    loom.agent
+    loom.twin
+    loom.capture
+
+[importlinter:contract:capture-deps]
+name = capture may only depend on semantic (B-5: capture -> semantic.public)
+type = forbidden
+source_modules =
+    loom.capture
+forbidden_modules =
+    loom.plant
+    loom.connect
+    loom.evidence
+    loom.operate
+    loom.studio
+    loom.agent
+    loom.twin
+    loom.physics

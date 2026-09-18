@@ -9,6 +9,7 @@
 주의: 헤드리스 결과는 status=review 로 남는다. 다음 파동은 review도 '충족'으로 간주하지만
       사람이 확인 후 done으로 바꾸기 전에는 머지하지 않는 것을 권장한다.
 """
+
 from __future__ import annotations
 
 import argparse
@@ -24,9 +25,13 @@ import progress  # noqa: E402
 
 def waves(modules: list[dict], milestone: str | None, priority: str | None) -> list[list[dict]]:
     status = {m["id"]: m["status"] for m in modules}
-    todo = [m for m in modules if m["status"] == "todo"
-            and (not milestone or m["milestone"] == milestone)
-            and (not priority or m["priority"] <= priority)]
+    todo = [
+        m
+        for m in modules
+        if m["status"] == "todo"
+        and (not milestone or m["milestone"] == milestone)
+        and (not priority or m["priority"] <= priority)
+    ]
     plan: list[list[dict]] = []
     satisfied = {i for i, s in status.items() if s in ("done", "review")}
     remaining = list(todo)
@@ -78,7 +83,7 @@ def main() -> None:
                 codes = list(ex.map(lambda c: run_card(c, True), ids))
         else:
             codes = [run_card(c, False) for c in ids]
-        failed = [c for c, code in zip(ids, codes) if code != 0]
+        failed = [c for c, code in zip(ids, codes, strict=True) if code != 0]
         if a.parallel == 1:
             test = subprocess.call(["uv", "run", "pytest", "-q"], cwd=ROOT)
             if test != 0:
@@ -89,7 +94,10 @@ def main() -> None:
         if a.parallel > 1:
             print("병렬 파동 완료. 각 worktree에서 diff 확인 후 순서대로 머지하고 다시 실행하라.")
             return
-    print("\n계획한 파동 완료. `python3 tools/progress.py`로 보드 갱신, review 카드를 확인해 done 처리.")
+    print(
+        "\n계획한 파동 완료. `python3 tools/progress.py`로 보드 갱신,"
+        " review 카드를 확인해 done 처리."
+    )
 
 
 if __name__ == "__main__":
