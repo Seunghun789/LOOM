@@ -1,0 +1,12 @@
+.venv/
+__pycache__/
+*.pyc
+.env
+var/*
+!var/eval/
+harness/runs/*.json
+!harness/runs/.gitkeep
+state/.compact_snapshot.md
+node_modules/
+apps/web/dist/
+.DS_Store

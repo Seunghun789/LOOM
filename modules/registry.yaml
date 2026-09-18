@@ -1,0 +1,1209 @@
+# 단일 진실 소스: 모듈 메타데이터와 상태.
+# status: todo | doing | review | done | blocked
+# 형식 규칙: 한 모듈 = '  - id:'로 시작하는 블록, 필드당 한 줄. tools/progress.py가 이 형식을 파싱한다.
+version: 1
+milestones:
+  - id: M0
+    name: "Harness Bootstrap"
+  - id: M1
+    name: "Core Contracts (S0)"
+  - id: M2
+    name: "Proving Plant (P)"
+  - id: M3
+    name: "Connect (S2)"
+  - id: M4
+    name: "Semantic (S3)"
+  - id: M5
+    name: "Evidence + Eval (S6) → G1"
+  - id: M6
+    name: "Operate (S7) → G2"
+  - id: M7
+    name: "Studio (S9)"
+  - id: M8
+    name: "Agent Loop (S8) → G3"
+  - id: M9
+    name: "Twin Bind (S4·PRISM)"
+  - id: M10
+    name: "Physics (S5)"
+  - id: M11
+    name: "Capture (S1)"
+  - id: M12
+    name: "Assembly & Release → G4"
+modules:
+  - id: H-001
+    title: "저장소 골격·uv·pytest·ruff"
+    sector: harness
+    milestone: M0
+    priority: P0
+    size: S
+    depends: []
+    agent: module-builder
+    patterns: [H1, H2]
+    status: todo
+    card: modules/cards/H-001.md
+  - id: H-002
+    title: "import-linter 경계 규칙"
+    sector: harness
+    milestone: M0
+    priority: P0
+    size: S
+    depends: [H-001]
+    agent: contract-guardian
+    patterns: [H5]
+    status: todo
+    card: modules/cards/H-002.md
+  - id: H-003
+    title: "Claude Code 훅 연결"
+    sector: harness
+    milestone: M0
+    priority: P0
+    size: S
+    depends: [H-001, H-002]
+    agent: module-builder
+    patterns: [H5]
+    status: todo
+    card: modules/cards/H-003.md
+  - id: H-004
+    title: "진행 보드 생성기"
+    sector: harness
+    milestone: M0
+    priority: P0
+    size: S
+    depends: [H-001]
+    agent: module-builder
+    patterns: [H2]
+    status: todo
+    card: modules/cards/H-004.md
+  - id: H-005
+    title: "헤드리스 하네스 러너"
+    sector: harness
+    milestone: M0
+    priority: P1
+    size: M
+    depends: [H-004]
+    agent: module-builder
+    patterns: [H8, H11]
+    status: todo
+    card: modules/cards/H-005.md
+  - id: H-006
+    title: "Docker Compose: Postgres+pgvector"
+    sector: harness
+    milestone: M0
+    priority: P1
+    size: S
+    depends: [H-001]
+    agent: module-builder
+    patterns: []
+    status: todo
+    card: modules/cards/H-006.md
+  - id: C-101
+    title: "URN ID"
+    sector: core
+    milestone: M1
+    priority: P0
+    size: S
+    depends: [H-001]
+    agent: module-builder
+    patterns: [H4]
+    status: todo
+    card: modules/cards/C-101.md
+  - id: C-102
+    title: "단위·시간 유틸"
+    sector: core
+    milestone: M1
+    priority: P0
+    size: S
+    depends: [H-001]
+    agent: module-builder
+    patterns: []
+    status: todo
+    card: modules/cards/C-102.md
+  - id: C-103
+    title: "Provenance 모델"
+    sector: core
+    milestone: M1
+    priority: P0
+    size: S
+    depends: [C-102]
+    agent: module-builder
+    patterns: []
+    status: todo
+    card: modules/cards/C-103.md
+  - id: C-104
+    title: "Entity·Property·Relationship"
+    sector: core
+    milestone: M1
+    priority: P0
+    size: M
+    depends: [C-101, C-103]
+    agent: module-builder
+    patterns: []
+    status: todo
+    card: modules/cards/C-104.md
+  - id: C-105
+    title: "EntityStore 포트 + 메모리 구현"
+    sector: core
+    milestone: M1
+    priority: P0
+    size: M
+    depends: [C-104]
+    agent: module-builder
+    patterns: []
+    status: todo
+    card: modules/cards/C-105.md
+  - id: C-106
+    title: "Postgres Entity·Telemetry 저장소"
+    sector: core
+    milestone: M1
+    priority: P1
+    size: M
+    depends: [C-105, C-107a, H-006]
+    agent: module-builder
+    patterns: []
+    status: todo
+    card: modules/cards/C-106.md
+  - id: C-107a
+    title: "TelemetryStore 포트 + 메모리 구현"
+    sector: core
+    milestone: M1
+    priority: P0
+    size: S
+    depends: [C-104]
+    agent: module-builder
+    patterns: []
+    status: todo
+    card: modules/cards/C-107a.md
+  - id: C-107
+    title: "이벤트 모델·버스"
+    sector: core
+    milestone: M1
+    priority: P0
+    size: S
+    depends: [C-102]
+    agent: module-builder
+    patterns: []
+    status: todo
+    card: modules/cards/C-107.md
+  - id: C-108
+    title: "LLM 포트·Fake·사용량 계측"
+    sector: core
+    milestone: M1
+    priority: P0
+    size: M
+    depends: [C-110]
+    agent: module-builder
+    patterns: [L1]
+    status: todo
+    card: modules/cards/C-108.md
+  - id: C-109
+    title: "Embedder 포트·해시·bge-m3"
+    sector: core
+    milestone: M1
+    priority: P0
+    size: S
+    depends: [C-110]
+    agent: module-builder
+    patterns: []
+    status: todo
+    card: modules/cards/C-109.md
+  - id: C-110
+    title: "설정·로깅·트레이스"
+    sector: core
+    milestone: M1
+    priority: P0
+    size: S
+    depends: [C-102]
+    agent: module-builder
+    patterns: []
+    status: todo
+    card: modules/cards/C-110.md
+  - id: C-111
+    title: "컨테이너 조립"
+    sector: core
+    milestone: M1
+    priority: P0
+    size: S
+    depends: [C-105, C-107a, C-107, C-108, C-109, C-110]
+    agent: module-builder
+    patterns: []
+    status: todo
+    card: modules/cards/C-111.md
+  - id: C-112
+    title: "FastAPI 앱 팩토리 + /v0/entities"
+    sector: api
+    milestone: M1
+    priority: P0
+    size: M
+    depends: [C-111]
+    agent: module-builder
+    patterns: []
+    status: todo
+    card: modules/cards/C-112.md
+  - id: P-201
+    title: "라인 토폴로지 스펙"
+    sector: plant
+    milestone: M2
+    priority: P0
+    size: S
+    depends: [C-111]
+    agent: module-builder
+    patterns: [H3]
+    status: todo
+    card: modules/cards/P-201.md
+  - id: P-202
+    title: "SimPy 라인 시뮬레이터"
+    sector: plant
+    milestone: M2
+    priority: P0
+    size: M
+    depends: [P-201]
+    agent: module-builder
+    patterns: []
+    status: todo
+    card: modules/cards/P-202.md
+  - id: P-203
+    title: "공정·품질 모델"
+    sector: plant
+    milestone: M2
+    priority: P0
+    size: M
+    depends: [P-202]
+    agent: module-builder
+    patterns: []
+    status: todo
+    card: modules/cards/P-203.md
+  - id: P-204
+    title: "결함 주입 카탈로그"
+    sector: plant
+    milestone: M2
+    priority: P0
+    size: M
+    depends: [P-203]
+    agent: module-builder
+    patterns: []
+    status: todo
+    card: modules/cards/P-204.md
+  - id: P-205
+    title: "산출물 작성기"
+    sector: plant
+    milestone: M2
+    priority: P0
+    size: M
+    depends: [P-204]
+    agent: module-builder
+    patterns: []
+    status: todo
+    card: modules/cards/P-205.md
+  - id: P-206
+    title: "작업표준서 PDF 생성"
+    sector: plant
+    milestone: M2
+    priority: P0
+    size: S
+    depends: [P-201]
+    agent: module-builder
+    patterns: []
+    status: todo
+    card: modules/cards/P-206.md
+  - id: P-207
+    title: "시나리오 팩 빌더 CLI"
+    sector: plant
+    milestone: M2
+    priority: P0
+    size: M
+    depends: [P-205, P-206]
+    agent: module-builder
+    patterns: [H3]
+    status: todo
+    card: modules/cards/P-207.md
+  - id: P-208
+    title: "what-if 러너"
+    sector: plant
+    milestone: M2
+    priority: P0
+    size: S
+    depends: [P-207]
+    agent: module-builder
+    patterns: []
+    status: todo
+    card: modules/cards/P-208.md
+  - id: N-301
+    title: "커넥터 포트·레지스트리"
+    sector: connect
+    milestone: M3
+    priority: P0
+    size: S
+    depends: [C-111]
+    agent: module-builder
+    patterns: []
+    status: todo
+    card: modules/cards/N-301.md
+  - id: N-302
+    title: "CSV·Excel 커넥터"
+    sector: connect
+    milestone: M3
+    priority: P0
+    size: S
+    depends: [N-301]
+    agent: module-builder
+    patterns: [H7]
+    status: todo
+    card: modules/cards/N-302.md
+  - id: N-303
+    title: "시계열 커넥터 → TelemetryStore"
+    sector: connect
+    milestone: M3
+    priority: P0
+    size: S
+    depends: [N-301, C-107a]
+    agent: module-builder
+    patterns: [H7]
+    status: todo
+    card: modules/cards/N-303.md
+  - id: N-304
+    title: "텍스트 로그 커넥터"
+    sector: connect
+    milestone: M3
+    priority: P0
+    size: S
+    depends: [N-301]
+    agent: module-builder
+    patterns: [H7]
+    status: todo
+    card: modules/cards/N-304.md
+  - id: N-305
+    title: "PDF 커넥터 (Docling)"
+    sector: connect
+    milestone: M3
+    priority: P0
+    size: M
+    depends: [N-301]
+    agent: module-builder
+    patterns: [H7]
+    status: todo
+    card: modules/cards/N-305.md
+  - id: N-306
+    title: "매핑 DSL·매퍼"
+    sector: connect
+    milestone: M3
+    priority: P0
+    size: M
+    depends: [N-302, N-303, N-304, N-305]
+    agent: module-builder
+    patterns: [H6]
+    status: todo
+    card: modules/cards/N-306.md
+  - id: N-307
+    title: "매핑 검증 픽스처"
+    sector: connect
+    milestone: M3
+    priority: P1
+    size: S
+    depends: [N-306]
+    agent: module-builder
+    patterns: []
+    status: todo
+    card: modules/cards/N-307.md
+  - id: N-308
+    title: "적재 계보(lineage)"
+    sector: connect
+    milestone: M3
+    priority: P0
+    size: M
+    depends: [N-306]
+    agent: module-builder
+    patterns: []
+    status: todo
+    card: modules/cards/N-308.md
+  - id: N-309
+    title: "팩 적재 파이프라인 CLI"
+    sector: connect
+    milestone: M3
+    priority: P0
+    size: M
+    depends: [N-308, P-207]
+    agent: module-builder
+    patterns: [H4]
+    status: todo
+    card: modules/cards/N-309.md
+  - id: N-310
+    title: "MQTT 스트림 커넥터"
+    sector: connect
+    milestone: M3
+    priority: P2
+    size: S
+    depends: [N-309]
+    agent: module-builder
+    patterns: []
+    status: todo
+    card: modules/cards/N-310.md
+  - id: O-401
+    title: "코어 온톨로지 v0"
+    sector: semantic
+    milestone: M4
+    priority: P0
+    size: M
+    depends: [C-111]
+    agent: module-builder
+    patterns: []
+    status: todo
+    card: modules/cards/O-401.md
+  - id: O-402
+    title: "온톨로지 검증기"
+    sector: semantic
+    milestone: M4
+    priority: P0
+    size: S
+    depends: [O-401]
+    agent: module-builder
+    patterns: []
+    status: todo
+    card: modules/cards/O-402.md
+  - id: O-403
+    title: "그래프 뷰 (NetworkX 투영)"
+    sector: semantic
+    milestone: M4
+    priority: P0
+    size: M
+    depends: [O-401]
+    agent: module-builder
+    patterns: []
+    status: todo
+    card: modules/cards/O-403.md
+  - id: O-404
+    title: "문서 → 운영기준 구조화 추출"
+    sector: semantic
+    milestone: M4
+    priority: P0
+    size: M
+    depends: [O-402, C-108, N-309]
+    agent: module-builder
+    patterns: [L1]
+    status: todo
+    card: modules/cards/O-404.md
+  - id: O-405
+    title: "정비일지 추출 (map-reduce)"
+    sector: semantic
+    milestone: M4
+    priority: P0
+    size: M
+    depends: [O-404, O-406]
+    agent: module-builder
+    patterns: [L1, L7]
+    status: todo
+    card: modules/cards/O-405.md
+  - id: O-406
+    title: "설비명·동의어 매칭"
+    sector: semantic
+    milestone: M4
+    priority: P0
+    size: M
+    depends: [C-109, O-401]
+    agent: module-builder
+    patterns: []
+    status: todo
+    card: modules/cards/O-406.md
+  - id: O-407
+    title: "문서 버전·유효기간"
+    sector: semantic
+    milestone: M4
+    priority: P0
+    size: S
+    depends: [O-404]
+    agent: module-builder
+    patterns: []
+    status: todo
+    card: modules/cards/O-407.md
+  - id: O-408
+    title: "변경 영향 전파"
+    sector: semantic
+    milestone: M4
+    priority: P1
+    size: S
+    depends: [O-403]
+    agent: module-builder
+    patterns: []
+    status: todo
+    card: modules/cards/O-408.md
+  - id: O-409
+    title: "SSoT 충돌 탐지"
+    sector: semantic
+    milestone: M4
+    priority: P2
+    size: S
+    depends: [O-403]
+    agent: module-builder
+    patterns: []
+    status: todo
+    card: modules/cards/O-409.md
+  - id: O-410
+    title: "추출 검토 큐 (ASSUMED→CONFIRMED)"
+    sector: semantic
+    milestone: M4
+    priority: P0
+    size: S
+    depends: [O-404, O-405]
+    agent: module-builder
+    patterns: []
+    status: todo
+    card: modules/cards/O-410.md
+  - id: E-501
+    title: "하이브리드 검색 인덱스"
+    sector: evidence
+    milestone: M5
+    priority: P0
+    size: M
+    depends: [O-410]
+    agent: module-builder
+    patterns: [L3]
+    status: todo
+    card: modules/cards/E-501.md
+  - id: E-502
+    title: "질의 도구 세트 (@tool)"
+    sector: evidence
+    milestone: M5
+    priority: P0
+    size: M
+    depends: [E-501, O-407]
+    agent: module-builder
+    patterns: [L2]
+    status: todo
+    card: modules/cards/E-502.md
+  - id: E-503
+    title: "의도 라우터 노드"
+    sector: evidence
+    milestone: M5
+    priority: P0
+    size: S
+    depends: [E-502]
+    agent: module-builder
+    patterns: [L4]
+    status: todo
+    card: modules/cards/E-503.md
+  - id: E-504
+    title: "온톨로지 RAG 질의 그래프"
+    sector: evidence
+    milestone: M5
+    priority: P0
+    size: M
+    depends: [E-503, E-505, E-506]
+    agent: module-builder
+    patterns: [L4, L12]
+    status: todo
+    card: modules/cards/E-504.md
+  - id: E-505
+    title: "Answer 조립기"
+    sector: evidence
+    milestone: M5
+    priority: P0
+    size: S
+    depends: [C-111]
+    agent: module-builder
+    patterns: []
+    status: todo
+    card: modules/cards/E-505.md
+  - id: E-506
+    title: "근거 부족 정책"
+    sector: evidence
+    milestone: M5
+    priority: P0
+    size: S
+    depends: [E-505]
+    agent: module-builder
+    patterns: []
+    status: todo
+    card: modules/cards/E-506.md
+  - id: E-507
+    title: "트레이스 뷰어"
+    sector: evidence
+    milestone: M5
+    priority: P1
+    size: S
+    depends: [E-504]
+    agent: module-builder
+    patterns: [L12]
+    status: todo
+    card: modules/cards/E-507.md
+  - id: E-508
+    title: "평가 하네스"
+    sector: evidence
+    milestone: M5
+    priority: P0
+    size: M
+    depends: [E-504, P-207]
+    agent: eval-runner
+    patterns: [H12]
+    status: todo
+    card: modules/cards/E-508.md
+  - id: E-509
+    title: "콘솔: 엔티티 탐색기 + 질의"
+    sector: apps
+    milestone: M5
+    priority: P0
+    size: M
+    depends: [E-508]
+    agent: module-builder
+    patterns: []
+    status: todo
+    card: modules/cards/E-509.md
+  - id: E-510
+    title: "API: /v0/ask · /v0/entities/{urn}/graph"
+    sector: api
+    milestone: M5
+    priority: P0
+    size: S
+    depends: [E-508, C-112]
+    agent: module-builder
+    patterns: []
+    status: todo
+    card: modules/cards/E-510.md
+  - id: R-601
+    title: "운영기준 평가기"
+    sector: operate
+    milestone: M6
+    priority: P0
+    size: M
+    depends: [E-508]
+    agent: module-builder
+    patterns: []
+    status: todo
+    card: modules/cards/R-601.md
+  - id: R-602
+    title: "SPC·공정능력"
+    sector: operate
+    milestone: M6
+    priority: P0
+    size: M
+    depends: [C-111]
+    agent: module-builder
+    patterns: []
+    status: todo
+    card: modules/cards/R-602.md
+  - id: R-603
+    title: "이상 탐지기"
+    sector: operate
+    milestone: M6
+    priority: P1
+    size: S
+    depends: [R-602]
+    agent: module-builder
+    patterns: []
+    status: todo
+    card: modules/cards/R-603.md
+  - id: R-604
+    title: "알람 관리자"
+    sector: operate
+    milestone: M6
+    priority: P0
+    size: M
+    depends: [R-601, R-602]
+    agent: module-builder
+    patterns: []
+    status: todo
+    card: modules/cards/R-604.md
+  - id: R-605
+    title: "RCA 초안 그래프 (서브그래프)"
+    sector: operate
+    milestone: M6
+    priority: P0
+    size: M
+    depends: [R-604]
+    agent: module-builder
+    patterns: [L8]
+    status: todo
+    card: modules/cards/R-605.md
+  - id: R-606
+    title: "대응 권고 + 과거 판단 메모리"
+    sector: operate
+    milestone: M6
+    priority: P0
+    size: M
+    depends: [R-605, R-609]
+    agent: module-builder
+    patterns: [L14]
+    status: todo
+    card: modules/cards/R-606.md
+  - id: R-607
+    title: "자율 레벨 정책"
+    sector: operate
+    milestone: M6
+    priority: P0
+    size: S
+    depends: [C-111]
+    agent: module-builder
+    patterns: []
+    status: todo
+    card: modules/cards/R-607.md
+  - id: R-608
+    title: "승인 워크플로 (interrupt + checkpointer)"
+    sector: operate
+    milestone: M6
+    priority: P0
+    size: M
+    depends: [R-606, R-607]
+    agent: module-builder
+    patterns: [L5, L6]
+    status: todo
+    card: modules/cards/R-608.md
+  - id: R-609
+    title: "결정 로그·결과 회수"
+    sector: operate
+    milestone: M6
+    priority: P0
+    size: S
+    depends: [C-111]
+    agent: module-builder
+    patterns: []
+    status: todo
+    card: modules/cards/R-609.md
+  - id: R-610
+    title: "운영 지표"
+    sector: operate
+    milestone: M6
+    priority: P0
+    size: S
+    depends: [R-609]
+    agent: module-builder
+    patterns: []
+    status: todo
+    card: modules/cards/R-610.md
+  - id: R-611
+    title: "콘솔: 운영 화면"
+    sector: apps
+    milestone: M6
+    priority: P0
+    size: M
+    depends: [R-610, E-509]
+    agent: module-builder
+    patterns: []
+    status: todo
+    card: modules/cards/R-611.md
+  - id: T-701
+    title: "리포트 데이터 빌더"
+    sector: studio
+    milestone: M7
+    priority: P0
+    size: S
+    depends: [R-610, E-508]
+    agent: module-builder
+    patterns: []
+    status: todo
+    card: modules/cards/T-701.md
+  - id: T-702
+    title: "리포트 렌더러"
+    sector: studio
+    milestone: M7
+    priority: P0
+    size: M
+    depends: [T-701]
+    agent: module-builder
+    patterns: []
+    status: todo
+    card: modules/cards/T-702.md
+  - id: T-703
+    title: "8D·5Why 초안 생성"
+    sector: studio
+    milestone: M7
+    priority: P1
+    size: S
+    depends: [T-702]
+    agent: module-builder
+    patterns: [L1]
+    status: todo
+    card: modules/cards/T-703.md
+  - id: T-704
+    title: "위젯 스펙·렌더러"
+    sector: studio
+    milestone: M7
+    priority: P1
+    size: M
+    depends: [T-701]
+    agent: module-builder
+    patterns: []
+    status: todo
+    card: modules/cards/T-704.md
+  - id: T-705
+    title: "자연어 → 대시보드 생성"
+    sector: studio
+    milestone: M7
+    priority: P1
+    size: M
+    depends: [T-704]
+    agent: module-builder
+    patterns: [L1, L15]
+    status: todo
+    card: modules/cards/T-705.md
+  - id: T-706
+    title: "주간 리포트 스케줄 CLI"
+    sector: studio
+    milestone: M7
+    priority: P2
+    size: S
+    depends: [T-702]
+    agent: module-builder
+    patterns: []
+    status: todo
+    card: modules/cards/T-706.md
+  - id: T-707
+    title: "방법 패키지 내보내기"
+    sector: studio
+    milestone: M7
+    priority: P1
+    size: S
+    depends: [E-508, T-702]
+    agent: module-builder
+    patterns: []
+    status: todo
+    card: modules/cards/T-707.md
+  - id: A-801
+    title: "LOOM MCP 서버"
+    sector: agent
+    milestone: M8
+    priority: P0
+    size: M
+    depends: [R-608, E-508, P-208]
+    agent: module-builder
+    patterns: [H10, L13]
+    status: todo
+    card: modules/cards/A-801.md
+  - id: A-802
+    title: "역할 에이전트 4종"
+    sector: agent
+    milestone: M8
+    priority: P0
+    size: M
+    depends: [A-801]
+    agent: module-builder
+    patterns: [L2, L9]
+    status: todo
+    card: modules/cards/A-802.md
+  - id: A-803
+    title: "Supervisor 오케스트레이션"
+    sector: agent
+    milestone: M8
+    priority: P0
+    size: M
+    depends: [A-802]
+    agent: module-builder
+    patterns: [L9]
+    status: todo
+    card: modules/cards/A-803.md
+  - id: A-804
+    title: "스테이션 전담 에이전트 + 가설 보드"
+    sector: agent
+    milestone: M8
+    priority: P1
+    size: M
+    depends: [A-803]
+    agent: module-builder
+    patterns: [L7]
+    status: todo
+    card: modules/cards/A-804.md
+  - id: A-805
+    title: "검증·반성 루프 + 예산 가드"
+    sector: agent
+    milestone: M8
+    priority: P0
+    size: S
+    depends: [A-803]
+    agent: module-builder
+    patterns: [L11]
+    status: todo
+    card: modules/cards/A-805.md
+  - id: A-806
+    title: "폐루프 데모: 감지→이해→판단→예측→실행→학습"
+    sector: agent
+    milestone: M8
+    priority: P0
+    size: M
+    depends: [A-805, R-608, P-208]
+    agent: module-builder
+    patterns: []
+    status: todo
+    card: modules/cards/A-806.md
+  - id: A-807
+    title: "Swarm(handoff) 변형과 비교 평가"
+    sector: agent
+    milestone: M8
+    priority: P1
+    size: M
+    depends: [A-806]
+    agent: eval-runner
+    patterns: [L10, H12]
+    status: todo
+    card: modules/cards/A-807.md
+  - id: A-808
+    title: "Claude Agent SDK 개발 오케스트레이터 (학습)"
+    sector: harness
+    milestone: M8
+    priority: P2
+    size: S
+    depends: [H-005]
+    agent: module-builder
+    patterns: [H9]
+    status: todo
+    card: modules/cards/A-808.md
+  - id: W-901
+    title: "PRISM 씬 ↔ URN 바인딩"
+    sector: twin
+    milestone: M9
+    priority: P0
+    size: S
+    depends: [O-410]
+    agent: module-builder
+    patterns: []
+    status: todo
+    card: modules/cards/W-901.md
+  - id: W-902
+    title: "상태 스트림 API (SSE)"
+    sector: twin
+    milestone: M9
+    priority: P0
+    size: S
+    depends: [W-901, C-112]
+    agent: module-builder
+    patterns: []
+    status: todo
+    card: modules/cards/W-902.md
+  - id: W-903
+    title: "웹 셸 + PRISM 뷰어 임베드"
+    sector: apps
+    milestone: M9
+    priority: P0
+    size: M
+    depends: [W-902]
+    agent: module-builder
+    patterns: []
+    status: todo
+    card: modules/cards/W-903.md
+  - id: W-904
+    title: "상태 색상·알람 핀"
+    sector: apps
+    milestone: M9
+    priority: P1
+    size: M
+    depends: [W-903]
+    agent: module-builder
+    patterns: []
+    status: todo
+    card: modules/cards/W-904.md
+  - id: W-905
+    title: "사이드 AI 어시스턴트"
+    sector: apps
+    milestone: M9
+    priority: P0
+    size: S
+    depends: [W-903, E-510]
+    agent: module-builder
+    patterns: []
+    status: todo
+    card: modules/cards/W-905.md
+  - id: W-906
+    title: "시뮬 재생 타임라인"
+    sector: apps
+    milestone: M9
+    priority: P2
+    size: S
+    depends: [W-904]
+    agent: module-builder
+    patterns: []
+    status: todo
+    card: modules/cards/W-906.md
+  - id: F-1001
+    title: "시나리오 템플릿: 2D 서버랙 냉각"
+    sector: physics
+    milestone: M10
+    priority: P0
+    size: S
+    depends: [C-111]
+    agent: module-builder
+    patterns: []
+    status: todo
+    card: modules/cards/F-1001.md
+  - id: F-1002
+    title: "솔버 래퍼 (LBM 2D 열유동)"
+    sector: physics
+    milestone: M10
+    priority: P0
+    size: M
+    depends: [F-1001]
+    agent: module-builder
+    patterns: []
+    status: todo
+    card: modules/cards/F-1002.md
+  - id: F-1003
+    title: "파라미터 스윕 + SimulationRun 엔티티"
+    sector: physics
+    milestone: M10
+    priority: P0
+    size: S
+    depends: [F-1002]
+    agent: module-builder
+    patterns: []
+    status: todo
+    card: modules/cards/F-1003.md
+  - id: F-1004
+    title: "서로게이트 U-Net 학습·추론"
+    sector: physics
+    milestone: M10
+    priority: P0
+    size: M
+    depends: [F-1003]
+    agent: module-builder
+    patterns: []
+    status: todo
+    card: modules/cards/F-1004.md
+  - id: F-1005
+    title: "OOD·컨포멀 신뢰구간"
+    sector: physics
+    milestone: M10
+    priority: P0
+    size: M
+    depends: [F-1004]
+    agent: module-builder
+    patterns: []
+    status: todo
+    card: modules/cards/F-1005.md
+  - id: F-1006
+    title: "제약 설정 탐색 → L1 권고"
+    sector: physics
+    milestone: M10
+    priority: P0
+    size: S
+    depends: [F-1005, R-609]
+    agent: module-builder
+    patterns: []
+    status: todo
+    card: modules/cards/F-1006.md
+  - id: F-1007
+    title: "콘솔: GT vs 서로게이트 비교"
+    sector: apps
+    milestone: M10
+    priority: P1
+    size: S
+    depends: [F-1006]
+    agent: module-builder
+    patterns: []
+    status: todo
+    card: modules/cards/F-1007.md
+  - id: K-1101
+    title: "DXF → SVG + 속성 추출"
+    sector: capture
+    milestone: M11
+    priority: P0
+    size: S
+    depends: [O-410]
+    agent: module-builder
+    patterns: []
+    status: todo
+    card: modules/cards/K-1101.md
+  - id: K-1102
+    title: "도면 표 OCR → 기기목록"
+    sector: capture
+    milestone: M11
+    priority: P1
+    size: M
+    depends: [K-1101]
+    agent: module-builder
+    patterns: []
+    status: todo
+    card: modules/cards/K-1102.md
+  - id: K-1103
+    title: "사진측량 파이프라인 (COLMAP)"
+    sector: capture
+    milestone: M11
+    priority: P2
+    size: M
+    depends: [C-111]
+    agent: module-builder
+    patterns: []
+    status: todo
+    card: modules/cards/K-1103.md
+  - id: K-1104
+    title: "포인트클라우드 측정·변화 탐지"
+    sector: capture
+    milestone: M11
+    priority: P2
+    size: S
+    depends: [K-1103]
+    agent: module-builder
+    patterns: []
+    status: todo
+    card: modules/cards/K-1104.md
+  - id: K-1105
+    title: "웹 포인트클라우드 뷰어"
+    sector: apps
+    milestone: M11
+    priority: P2
+    size: S
+    depends: [K-1104, W-903]
+    agent: module-builder
+    patterns: []
+    status: todo
+    card: modules/cards/K-1105.md
+  - id: Z-1201
+    title: "통합 CLI `loom`"
+    sector: cli
+    milestone: M12
+    priority: P0
+    size: M
+    depends: [A-806]
+    agent: module-builder
+    patterns: []
+    status: todo
+    card: modules/cards/Z-1201.md
+  - id: Z-1202
+    title: "통합 API 게이트웨이"
+    sector: api
+    milestone: M12
+    priority: P0
+    size: S
+    depends: [Z-1201, W-902]
+    agent: module-builder
+    patterns: []
+    status: todo
+    card: modules/cards/Z-1202.md
+  - id: Z-1203
+    title: "웹 셸 통합 내비게이션"
+    sector: apps
+    milestone: M12
+    priority: P1
+    size: M
+    depends: [Z-1202, W-905]
+    agent: module-builder
+    patterns: []
+    status: todo
+    card: modules/cards/Z-1203.md
+  - id: Z-1204
+    title: "Compose 전체 스택 프로파일"
+    sector: harness
+    milestone: M12
+    priority: P1
+    size: S
+    depends: [Z-1202]
+    agent: module-builder
+    patterns: []
+    status: todo
+    card: modules/cards/Z-1204.md
+  - id: Z-1205
+    title: "JSON-LD 전체 내보내기"
+    sector: core
+    milestone: M12
+    priority: P1
+    size: S
+    depends: [Z-1201]
+    agent: module-builder
+    patterns: []
+    status: todo
+    card: modules/cards/Z-1205.md
+  - id: Z-1206
+    title: "E2E 데모 투어·포트폴리오"
+    sector: docs
+    milestone: M12
+    priority: P0
+    size: S
+    depends: [Z-1201]
+    agent: doc-keeper
+    patterns: []
+    status: todo
+    card: modules/cards/Z-1206.md
