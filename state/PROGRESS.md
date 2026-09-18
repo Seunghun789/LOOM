@@ -1,10 +1,10 @@
 # PROGRESS — 자동 생성 (편집 금지, 원본: modules/registry.yaml)
 
-갱신: 2026-09-17 14:41 UTC
+갱신: 2026-09-18 03:34 UTC
 
 | 마일스톤 | 완료 | 진행 | 리뷰 | 막힘 | 전체 | P0 완료율 | 남은 세션(추정) |
 |---|---|---|---|---|---|---|---|
-| M0 Harness Bootstrap | 0 | 0 | 0 | 0 | 6 | 0/4 | 6.5 |
+| M0 Harness Bootstrap | 0 | 0 | 2 | 0 | 6 | 0/4 | 6.5 |
 | M1 Core Contracts (S0) | 0 | 0 | 0 | 0 | 13 | 0/12 | 15.5 |
 | M2 Proving Plant (P) | 0 | 0 | 0 | 0 | 8 | 0/8 | 10.5 |
 | M3 Connect (S2) | 0 | 0 | 0 | 0 | 10 | 0/8 | 12 |
@@ -22,8 +22,8 @@
 
 ### M0 · Harness Bootstrap
 
-- ⬜ `H-001` 저장소 골격·uv·pytest·ruff · P0 · S
-- ⬜ `H-002` import-linter 경계 규칙 · P0 · S · ←H-001
+- 🟨 `H-001` 저장소 골격·uv·pytest·ruff · P0 · S
+- 🟨 `H-002` import-linter 경계 규칙 · P0 · S · ←H-001
 - ⬜ `H-003` Claude Code 훅 연결 · P0 · S · ←H-001,H-002
 - ⬜ `H-004` 진행 보드 생성기 · P0 · S · ←H-001
 - ⬜ `H-005` 헤드리스 하네스 러너 · P1 · M · ←H-004

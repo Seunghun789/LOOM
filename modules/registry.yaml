@@ -50,7 +50,7 @@ modules:
     depends: [H-001]
     agent: contract-guardian
     patterns: [H5]
-    status: todo
+    status: review
     card: modules/cards/H-002.md
   - id: H-003
     title: "Claude Code 훅 연결"
